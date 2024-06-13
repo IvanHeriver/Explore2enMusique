@@ -159,8 +159,8 @@ function processName(filename: string): TDataInfo | null {
 function getCatchmentInfo() {
   const catchment_info_raw = fs.readFileSync("./data/bv_info.txt", "utf8");
   const catchment_info_tbl = catchment_info_raw
-    .split("\r\n")
-    .map((l) => l.split(";"));
+    .split("\n")
+    .map((l) => l.trim().split(";"));
   const catchment_info_map: Map<string, TCatchmentInfo> = new Map();
   console.log(catchment_info_tbl);
   for (let catchment of catchment_info_tbl) {
