@@ -1,0 +1,65 @@
+.markdown .container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.markdown p {
+  margin-bottom: 1rem;
+}
+
+.markdown ul,
+.markdown ol {
+  margin-bottom: 1rem;
+}
+
+.markdown li {
+  margin-left: 1rem;
+}
+
+.markdown pre {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+.markdown code {
+  font-family: Consolas, Monaco, "Courier New", Courier, monospace;
+  font-size: 0.9em;
+}
+
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.markdown th,
+.markdown td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.markdown th {
+  background-color: #f2f2f2;
+}
+
+.markdown td {
+  background-color: #fff;
+}
+
+.markdown blockquote {
+  margin: 0;
+  padding: 1rem;
+  padding-bottom: 0.01rem;
+  border-left: 5px solid var(--light-color);
+  font-style: italic;
+  quotes: "\201C""\201D""\2018""\2019";
+  position: relative;
+}
+
+.markdown blockquote blockquote {
+  padding: 1rem;
+}

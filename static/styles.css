@@ -1,0 +1,34 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  --xdark-color: hsl(196, 60%, 15%);
+  --dark-color: hsl(196, 60%, 30%);
+  --main-color: hsl(196, 60%, 50%);
+  --light-color: hsl(196, 100%, 85%);
+  --xlight-color: hsl(196, 100%, 95%);
+  --border-radius: 5px;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  padding: 0.25rem;
+  border: none;
+  background-color: var(--main-color);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+}
+
+button:hover {
+  background-color: var(--light-color);
+}
