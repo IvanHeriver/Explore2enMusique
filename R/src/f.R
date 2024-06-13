@@ -1,3 +1,5 @@
+# credits: coded by Benjamin Renard and modified/adapted by Ivan Horner
+
 createWave <- function(
     values,
     anomalies,
