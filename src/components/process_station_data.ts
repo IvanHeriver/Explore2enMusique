@@ -162,6 +162,7 @@ function getCatchmentInfo() {
     .split("\r\n")
     .map((l) => l.split(";"));
   const catchment_info_map: Map<string, TCatchmentInfo> = new Map();
+  console.log(catchment_info_tbl);
   for (let catchment of catchment_info_tbl) {
     catchment_info_map.set(catchment[0], {
       code: catchment[0],
