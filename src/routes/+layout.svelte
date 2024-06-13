@@ -4,12 +4,12 @@
 <div class="wrapper">
   <header>
     <div class="logo">
-      <a href="/"><img src="explore-2-en-musique.png" alt="Logo" /></a>
+      <a href="./"><img src="explore-2-en-musique.png" alt="Logo" /></a>
     </div>
     <nav>
       <ul>
         <li>
-          <a href="/" title="carte">
+          <a href="./" title="carte">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -30,7 +30,7 @@
           </a>
         </li>
         <li>
-          <a href="/a_propos" title="à propos">
+          <a href="./a_propos" title="à propos">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -51,7 +51,7 @@
         </li>
         <li>
           <a
-            href="/donnees_list"
+            href="./donnees_list"
             title="list des bassins versant et simulations"
           >
             <svg

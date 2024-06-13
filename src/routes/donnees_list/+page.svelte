@@ -7,7 +7,7 @@
     {#each data.data.entries() as catchment}
       <li>
         {#if catchment[1]}
-          <a href={`/#code=${catchment[1].info.code}`}>
+          <a href={`./#code=${catchment[1].info.code}`}>
             {catchment[1].info.name}
           </a>
           <ul>

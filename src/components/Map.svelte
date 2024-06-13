@@ -35,7 +35,7 @@
       anchor: [0.5, 0],
       anchorXUnits: "fraction",
       anchorYUnits: "fraction",
-      src: "/water_drop.png",
+      src: "./water_drop.png",
       scale: 0.1,
     }),
   });
@@ -45,7 +45,7 @@
       anchor: [0.5, 0],
       anchorXUnits: "fraction",
       anchorYUnits: "fraction",
-      src: "/water_drop_orange.png",
+      src: "./water_drop_orange.png",
       scale: 0.1,
     }),
   });
