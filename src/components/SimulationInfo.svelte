@@ -30,17 +30,4 @@
     gap: 0.5rem;
     font-weight: bold;
   }
-
-  /* .sim-info > * {
-    position: relative;
-  }
-  .sim-info > *:not(:first-child)::after {
-    --w: 2px;
-    position: absolute;
-    content: "";
-    height: 100%;
-    width: var(--w);
-    left: calc(-0.25rem - var(--w) / 2);
-    background-color: var(--main-color);
-  } */
 </style>

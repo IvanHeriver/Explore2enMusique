@@ -1,7 +1,6 @@
 <script lang="ts">
   import CatchmentInfo from "./CatchmentInfo.svelte";
   import CatchmentVideoCard from "./CatchmentVideoCard.svelte";
-  import Map from "./Map.svelte";
 
   import type { TCatchmentData, TCatchmentInfo } from "./process_station_data";
   export let catchment: TCatchmentData;
