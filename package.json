@@ -25,7 +25,6 @@
   },
   "type": "module",
   "dependencies": {
-    "dotenv": "^16.4.5",
     "marked": "^12.0.2",
     "ol": "^9.2.1",
     "proj4": "^2.11.0"
