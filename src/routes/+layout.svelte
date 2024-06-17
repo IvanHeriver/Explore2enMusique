@@ -5,15 +5,24 @@
 
   import { page } from "$app/stores";
   import Welcome from "../components/Welcome.svelte";
+  import { base } from "$app/paths";
 
   export let data;
   let catchments: TCatchmentData[] = [...data.data.values()];
 </script>
 
-<div class="wrapper" class:root={$page.url.pathname === "/"}>
+<link rel="icon" href="{base}/water_drop.svg" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="{base}/styles.css" />
+<link rel="stylesheet" href="{base}/markdown.styles.css" />
+<link rel="stylesheet" href="{base}/ol.styles.css" />
+
+<div class="wrapper" class:root={$page.url.pathname === `${base}/`}>
   <header>
     <div class="logo">
-      <a href="/"><img src="/explore2_logo_color.png" alt="Logo" /></a>
+      <a href="{base}/"
+        ><img src="{base}/explore2_logo_color.png" alt="Logo" /></a
+      >
     </div>
     <NavBar />
   </header>

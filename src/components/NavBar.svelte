@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { base } from "$app/paths";
+
   import Icon from "./Icon.svelte";
 
   import { page } from "$app/stores";
@@ -9,30 +11,30 @@
   <ul>
     <li>
       <a
-        href="/"
+        href="{base}/"
         title="carte"
         aria-label="afficher la carte"
-        class:selected={$page.url.pathname === "/"}
+        class:selected={$page.url.pathname === `${base}/`}
       >
         <Icon id="map" />
       </a>
     </li>
     <li>
       <a
-        href="/a_propos"
+        href="{base}/a_propos"
         title="à propos"
         aria-label="afficher les informations sur le site web"
-        class:selected={$page.url.pathname === "/a_propos"}
+        class:selected={$page.url.pathname === `${base}/a_propos`}
       >
         <Icon id="question" />
       </a>
     </li>
     <li>
       <a
-        href="/stations"
+        href="{base}/stations"
         title="list des données"
         aria-label="afficher la liste des données / simulations disponibles"
-        class:selected={$page.url.pathname === "/stations"}
+        class:selected={$page.url.pathname === `${base}/stations`}
       >
         <Icon id="list" />
       </a>

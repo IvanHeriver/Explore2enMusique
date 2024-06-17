@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import About from "./About.svelte";
   import MarkdownRenderer from "./MarkdownRenderer.svelte";
+  import { base } from "$app/paths";
 
   export let short: string;
   export let explore2: string;
@@ -25,7 +26,7 @@
       &#10006;
     </button>
     <div class="welcome">
-      <img src="/explore2_logo_color.png" alt="" />
+      <img src="{base}/explore2_logo_color.png" alt="" />
       <h1>
         Bienvenue dans <b>Explore 2</b> <i>en musique</i>
       </h1>
