@@ -1,3 +1,5 @@
+import type { TCatchmentData, TCatchmentInfo, TDataInfo } from "./types";
+
 const fs = await import("fs");
 
 const available_data_names = [
@@ -111,28 +113,6 @@ const available_data_names = [
   "Y902000101__HadGEM2-ES_historical-rcp85_CCLM4-8-17_ADAMONT_MORDOR-SD",
 ];
 
-export type TDataInfo = {
-  fullname: string;
-  code: string;
-  gcm: string;
-  proj: string;
-  rcm: string;
-  bias_correction: string;
-  hydro_model: string;
-};
-
-export type TCatchmentInfo = {
-  code: string;
-  name: string;
-  x: number;
-  y: number;
-};
-
-export type TCatchmentData = {
-  info: TCatchmentInfo;
-  data: TDataInfo[];
-};
-
 function processName(filename: string): TDataInfo | null {
   const pattern =
     /^([A-Za-z0-9-]+)__([A-Za-z0-9-]+)_([A-Za-z0-9-]+)_([A-Za-z0-9-]+)_([A-Za-z0-9-]+)_([A-Za-z0-9-]+)$/;
@@ -151,7 +131,7 @@ function processName(filename: string): TDataInfo | null {
       hydro_model,
     };
   } else {
-    console.log(`No match for name: ${filename}`);
+    console.error(`No match for name: ${filename}`);
     return null;
   }
 }
@@ -162,7 +142,6 @@ function getCatchmentInfo() {
     .split("\n")
     .map((l) => l.trim().split(";"));
   const catchment_info_map: Map<string, TCatchmentInfo> = new Map();
-  console.log(catchment_info_tbl);
   for (let catchment of catchment_info_tbl) {
     catchment_info_map.set(catchment[0], {
       code: catchment[0],

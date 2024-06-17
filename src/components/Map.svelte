@@ -8,86 +8,24 @@
   import View from "ol/View.js";
   import WMTS from "ol/source/WMTS.js";
   import WMTSTileGrid from "ol/tilegrid/WMTS";
-  import Feature from "ol/Feature";
-  import Point from "ol/geom/Point";
-  import { Icon, Style } from "ol/style";
-  import { Vector as VectorSource } from "ol/source.js";
-  import { Vector as VectorLayer } from "ol/layer.js";
   import Overlay from "ol/Overlay";
-  import type { Coordinate } from "ol/coordinate";
+  import OSM from "ol/source/OSM.js";
 
   import { onMount } from "svelte";
-  import { pushState } from "$app/navigation";
 
-  import type {
-    TCatchmentData,
-    TCatchmentInfo,
-    TDataInfo,
-  } from "./process_station_data";
   import CatchmentPopup from "./CatchmentMapPopup.svelte";
-  import CachmentFullPopup from "./CatchmentFullMapPopup.svelte";
-  import { fromHash, updateHash } from "./hash";
+
+  import type { TCatchmentData, TCatchmentInfo } from "./types";
+  import MapPin from "./MapPin.svelte";
+  import { getDataFromURLhash, updateURLhash } from "./hash";
 
   export let catchments: TCatchmentData[];
-
-  const water_drop_icon = new Style({
-    image: new Icon({
-      anchor: [0.5, 0],
-      anchorXUnits: "fraction",
-      anchorYUnits: "fraction",
-      src: "./water_drop.png",
-      scale: 0.1,
-    }),
-  });
-
-  const water_drop_icon_orange = new Style({
-    image: new Icon({
-      anchor: [0.5, 0],
-      anchorXUnits: "fraction",
-      anchorYUnits: "fraction",
-      src: "./water_drop_orange.png",
-      scale: 0.1,
-    }),
-  });
 
   let map: Map;
 
   let zoom = 5;
   let center = proj.fromLonLat([5, 45]);
-
-  let push_state_debouncer: number | null = null;
-  function updateURLhash(object: { [key: string]: string | null }) {
-    const hash = updateHash(window.location.hash, object);
-    if (push_state_debouncer != null) {
-      window.clearTimeout(push_state_debouncer);
-    }
-    push_state_debouncer = window.setTimeout(() => {
-      pushState(hash, {});
-    }, 500);
-  }
-
-  function handleUrl() {
-    const hash = window.location.hash;
-    const params = fromHash(hash);
-    // map
-    if (params.map) {
-      const parts = params.map.split("/");
-      if (parts.length === 3) {
-        zoom = parseFloat(parts[0]);
-        center = [parseFloat(parts[1]), parseFloat(parts[2])];
-        map.getView().setCenter(center);
-        map.getView().setZoom(zoom);
-      }
-    }
-    if (params.code) {
-      const catchment = catchments.find((c) => c.info.code === params.code);
-      if (!catchment) {
-        updateURLhash({ code: null });
-        return;
-      }
-      handleFullCatchmentPopup(catchment);
-    }
-  }
+  let should_update_history_state = true;
 
   onMount(() => {
     // ****************************************************
@@ -104,10 +42,11 @@
 
     // ****************************************************
     // handle history navigation (zoom and location)
-    let shouldUpdateHistoryState = true;
+
+    let hash_debouncer: number | null = null;
     map.on("moveend", () => {
-      if (!shouldUpdateHistoryState) {
-        shouldUpdateHistoryState = true;
+      if (!should_update_history_state) {
+        should_update_history_state = true;
         return;
       }
       const zoom = view.getZoom();
@@ -115,38 +54,37 @@
       if (!center || !zoom) {
         return;
       }
-      updateURLhash({
-        map: `${zoom.toFixed(2)}/${center[0].toFixed(2)}/${center[1].toFixed(2)}`,
-      });
-    });
-    window.addEventListener("popstate", function (event) {
-      if (event.state === null) {
-        return;
+      if (hash_debouncer) {
+        window.clearTimeout(hash_debouncer);
       }
-      shouldUpdateHistoryState = false;
-      handleUrl();
+      hash_debouncer = window.setTimeout(() => {
+        updateURLhash({
+          map: `${zoom.toFixed(2)}/${center[0].toFixed(2)}/${center[1].toFixed(2)}`,
+        });
+      }, 200);
     });
-    handleUrl();
+
+    processMapNavInfo();
 
     // ****************************************************
     // load IGN data
     const resolutions = [];
-    const matrixIds = [];
+    const matrix_ids = [];
     const proj3857 = proj.get("EPSG:3857");
     if (proj3857 == null) {
       return;
     }
-    const maxResolution = extent.getWidth(proj3857.getExtent()) / 256;
+    const max_resolution = extent.getWidth(proj3857.getExtent()) / 256;
 
     for (let i = 0; i < 20; i++) {
-      matrixIds[i] = i.toString();
-      resolutions[i] = maxResolution / Math.pow(2, i);
+      matrix_ids[i] = i.toString();
+      resolutions[i] = max_resolution / Math.pow(2, i);
     }
 
-    const tileGrid = new WMTSTileGrid({
+    const ign_tile_grid = new WMTSTileGrid({
       origin: [-20037508, 20037508],
       resolutions: resolutions,
-      matrixIds: matrixIds,
+      matrixIds: matrix_ids,
     });
 
     const ign_source = new WMTS({
@@ -155,7 +93,7 @@
       matrixSet: "PM",
       format: "image/png",
       projection: "EPSG:3857",
-      tileGrid: tileGrid,
+      tileGrid: ign_tile_grid,
       style: "normal",
       attributions:
         '<a href="https://www.ign.fr/" target="_blank">' +
@@ -165,7 +103,15 @@
     const ign = new TileLayer({
       source: ign_source,
     });
-    map.addLayer(ign);
+    // map.addLayer(ign);
+
+    // ****************************************************
+    // load OSM data
+    const osm_source = new OSM();
+    const osm_layer = new TileLayer({
+      source: osm_source,
+    });
+    map.addLayer(osm_layer);
 
     // ****************************************************
     // dealing with station data
@@ -177,170 +123,98 @@
     );
     register(proj4);
 
+    let catchment_info_popup: Overlay | undefined;
+
     // creating the catchments features
-    const features: Feature<Point>[] = [];
     for (let catchment of catchments) {
-      const feature = new Feature({
-        geometry: new Point(
-          proj.transform(
-            [catchment.info.x, catchment.info.y],
-            "EPSG:2154",
-            "EPSG:3857"
-          )
-        ),
-        name: `${catchment.info.name} (${catchment.info.code})`,
-        code: catchment.info.code,
-        info: catchment.info,
-        data: catchment.data,
-      });
-      feature.setStyle(water_drop_icon);
-      features.push(feature);
-    }
-
-    const vectorSource = new VectorSource({
-      features: features,
-    });
-
-    const vectorLayer = new VectorLayer({
-      source: vectorSource,
-    });
-
-    map.addLayer(vectorLayer);
-
-    // ****************************************************
-    // dealing with  events
-
-    // on click, load catchment compoennt
-    map.on("click", function (e) {
-      const last_feature = map.forEachFeatureAtPixel(
-        e.pixel,
-        function (feature) {
-          return feature;
-        }
+      const coordinates = proj.transform(
+        [catchment.info.x, catchment.info.y],
+        "EPSG:2154",
+        "EPSG:3857"
       );
-      // reset
-      features.forEach((f) => f.setStyle(water_drop_icon));
-      map_container.style.cursor = "unset";
-      if (popup) {
-        map.removeOverlay(popup);
-      }
-      // open popup
-      if (last_feature) {
-        const info = last_feature.get("info") as TCatchmentInfo;
-        const data = last_feature.get("data") as TDataInfo[];
-        handleFullCatchmentPopup({ info, data });
-        updateURLhash({ code: info.code });
-      }
-    });
-
-    // on mouse move, load popup preview
-    map.on("pointermove", function (e) {
-      if (e.dragging) {
+      const div = document.createElement("div");
+      new MapPin({
+        target: div,
+        props: {
+          info: catchment.info,
+          onHover: (info: TCatchmentInfo) => {
+            const div_popup = document.createElement("div");
+            new CatchmentPopup({
+              target: div_popup,
+              props: {
+                info: info,
+              },
+            });
+            catchment_info_popup = new Overlay({
+              element: div_popup,
+              positioning: "bottom-center",
+              insertFirst: false,
+              offset: [0, 0],
+              stopEvent: false,
+            });
+            catchment_info_popup.setPosition(coordinates);
+            map.addOverlay(catchment_info_popup);
+            return () => {
+              if (catchment_info_popup) {
+                map.removeOverlay(catchment_info_popup);
+              }
+            };
+          },
+        },
+      });
+      const popup = new Overlay({
+        element: div,
+        positioning: "top-center",
+        offset: [0, 0],
+        stopEvent: false,
+      });
+      popup.setPosition(coordinates);
+      map.addOverlay(popup);
+    }
+    window.addEventListener("popstate", function (event) {
+      if (event.state === null) {
         return;
       }
-      const last_feature = map.forEachFeatureAtPixel(
-        e.pixel,
-        function (feature) {
-          return feature;
-        }
-      );
-      // reset
-      features.forEach((f) => f.setStyle(water_drop_icon));
-      map_container.style.cursor = "unset";
-      if (popup) {
-        map.removeOverlay(popup);
-      }
-      // open popup
-      if (last_feature) {
-        handleCatchmentPopup(
-          e.coordinate,
-          last_feature.get("info") as TCatchmentInfo
-        );
-        map_container.style.cursor = "pointer";
-        const point = last_feature as Feature<Point>;
-        point.setStyle(water_drop_icon_orange);
-      }
+      should_update_history_state = false;
+      processMapNavInfo();
     });
   });
 
-  // ncatchment preview popup
-  let popup: Overlay | null = null;
-  function handleCatchmentPopup(
-    coordinates: Coordinate,
-    catchment_info: TCatchmentInfo
-  ) {
-    const div = document.createElement("div");
-    new CatchmentPopup({
-      target: div,
-      props: {
-        info: catchment_info,
-        // close_cb: () => {
-        //   if (popup) {
-        //     map.removeOverlay(popup);
-        //   }
-        // },
-      },
-    });
-    popup = new Overlay({
-      element: div,
-      positioning: "bottom-center",
-      offset: [0, -10],
-      stopEvent: false,
-    });
-    popup.setPosition(coordinates);
-    map.addOverlay(popup);
+  function processMapNavInfo() {
+    const info = getDataFromURLhash("map");
+    if (!map || !info) {
+      return;
+    }
+    const parts = info.split("/");
+    if (parts.length === 3) {
+      zoom = parseFloat(parts[0]);
+      center = [parseFloat(parts[1]), parseFloat(parts[2])];
+      map.getView().setCenter(center);
+      map.getView().setZoom(zoom);
+      should_update_history_state = false;
+      map.render();
+    }
   }
 
-  // catchment frame
-  function handleFullCatchmentPopup(catchment: TCatchmentData) {
-    catchment_container.innerHTML = "";
-    catchment_container.style.display = "block";
-    new CachmentFullPopup({
-      target: catchment_container,
-      props: {
-        catchment: catchment,
-        close_cb: () => {
-          catchment_container.innerHTML = "";
-          catchment_container.style.display = "none";
-          updateURLhash({ code: null });
-        },
-      },
-    });
-  }
-
-  let catchment_container: HTMLDivElement;
   let map_container: HTMLDivElement;
 </script>
 
-<div class="catchment-container" bind:this={catchment_container}></div>
 <div class="map-container">
   <div id="map" bind:this={map_container}></div>
 </div>
 
 <style>
-  .catchment-container {
-    position: absolute;
-    inset: 0;
-    z-index: 100000;
-    display: none;
-  }
   .map-container {
-    position: absolute;
+    position: fixed;
     inset: 0;
   }
   #map {
     height: 100%;
     width: 100%;
   }
-  :global(.ol-overlaycontainer-stopevent) {
+  :global(.ol-zoom) {
     position: absolute;
     inset: 4.5rem auto auto 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.25rem;
-  }
-  :global(.ol-zoom) {
     display: flex;
     gap: 0.25rem;
   }
@@ -353,5 +227,26 @@
   }
   :global(.ol-collapsed > ul) {
     display: none;
+  }
+
+  :global(.ol-attribution) {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    bottom: var(--footer-height);
+    right: 0;
+    font-size: 12px;
+  }
+
+  :global(.ol-attribution button) {
+    display: none;
+  }
+  :global(.ol-attribution ul) {
+    margin: 0;
+    padding: 0;
+  }
+
+  :global(.ol-attribution li) {
+    list-style: none;
   }
 </style>

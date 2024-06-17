@@ -1,6 +1,6 @@
 <script lang="ts">
   import SimulationInfo from "./SimulationInfo.svelte";
-  import type { TDataInfo } from "./process_station_data";
+  import type { TDataInfo } from "./types";
 
   export let data: TDataInfo;
   export let onPlay: (video_element: HTMLVideoElement) => void;

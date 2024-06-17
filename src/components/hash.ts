@@ -1,3 +1,5 @@
+import { pushState } from "$app/navigation";
+
 export function fromHash(hash: string): { [key: string]: string } {
   if (!hash || hash == "" || !hash.startsWith("#")) {
     return {};
@@ -35,4 +37,19 @@ export function updateHash(
     }
   });
   return toHash(params);
+}
+
+export function getDataFromURLhash(key: string): string | undefined {
+  return fromHash(window.location.hash)[key];
+}
+
+// let push_state_debouncer: number | null = null;
+export function updateURLhash(object: { [key: string]: string | null }) {
+  const hash = updateHash(window.location.hash, object);
+  pushState(hash, {});
+  // if (push_state_debouncer != null) {
+  //   window.clearTimeout(push_state_debouncer);
+  // }
+  // push_state_debouncer = window.setTimeout(() => {
+  // }, 0);
 }

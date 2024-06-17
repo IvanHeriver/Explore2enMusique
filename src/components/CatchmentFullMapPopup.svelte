@@ -1,8 +1,8 @@
 <script lang="ts">
   import CatchmentInfo from "./CatchmentInfo.svelte";
   import CatchmentVideoCard from "./CatchmentVideoCard.svelte";
+  import type { TCatchmentData } from "./types";
 
-  import type { TCatchmentData, TCatchmentInfo } from "./process_station_data";
   export let catchment: TCatchmentData;
   export let close_cb: () => void;
 
@@ -36,12 +36,11 @@
 
 <style>
   .container {
-    padding: 0.5rem;
-    /* padding-top: 2.5rem; */
+    /* padding: 0.5rem;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: var(--border-radius);
     position: absolute;
-    inset: 0rem;
+    inset: 0; */
 
     display: flex;
     flex-direction: column;
@@ -51,6 +50,7 @@
   .title {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .videos {
@@ -75,8 +75,9 @@
   }
 
   .close {
-    /* position: absolute;
-    inset: 0.5rem 0.5rem auto auto; */
+    position: fixed;
+    /* inset: 0.5rem 0.5rem auto auto; */
+    inset: calc(var(--header-height) + 1rem) auto auto 1rem;
     width: 2rem;
     height: 2rem;
     display: flex;

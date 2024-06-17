@@ -1,6 +1,6 @@
 <script lang="ts">
   import CatchmentInfo from "./CatchmentInfo.svelte";
-  import type { TCatchmentInfo } from "./process_station_data";
+  import type { TCatchmentInfo } from "./types";
   export let info: TCatchmentInfo;
 </script>
 
@@ -10,7 +10,7 @@
 
 <style>
   .container {
-    padding: 1rem;
+    /* padding: 1rem; */
     position: relative;
     max-width: 100vw;
     border-radius: var(--border-radius);

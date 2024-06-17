@@ -8,6 +8,7 @@
   --light-color: hsl(196, 100%, 85%);
   --xlight-color: hsl(196, 100%, 95%);
   --border-radius: 5px;
+  --transparency_pc: 20%;
 }
 
 *,

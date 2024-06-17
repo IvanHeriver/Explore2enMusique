@@ -1,9 +1,8 @@
 <script lang="ts">
+  import About from "../../components/About.svelte";
+  import MarkdownRenderer from "../../components/MarkdownRenderer.svelte";
+
   export let data;
 </script>
 
-<div>
-  <div class="markdown">
-    {@html data.text}
-  </div>
-</div>
+<About explore2={data.explore2} sonification={data.sonification} />

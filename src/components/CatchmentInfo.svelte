@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TCatchmentInfo } from "./process_station_data";
+  import type { TCatchmentInfo } from "./types";
 
   export let info: TCatchmentInfo;
 </script>
@@ -18,6 +18,7 @@
     border-radius: var(--border-radius);
     gap: 0.25rem;
     padding: 0.5rem;
+    padding-inline: 2rem;
   }
 
   .catchment-info > * {
