@@ -1,5 +1,6 @@
 <script lang="ts">
   import CatchmentInfo from "./CatchmentInfo.svelte";
+  import { base } from "$app/paths";
   import type { TCatchmentInfo } from "./types";
 
   export let info: TCatchmentInfo;
