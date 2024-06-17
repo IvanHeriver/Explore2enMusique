@@ -27,7 +27,7 @@
 >
   <a
     class="pin"
-    href={`/station/${info.code}`}
+    href={`${base}/station/${info.code}`}
     title={info.name}
     aria-label={`Page de la station ${info.name}`}
   >
