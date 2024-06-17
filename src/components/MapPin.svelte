@@ -1,5 +1,4 @@
 <script lang="ts">
-  import CatchmentInfo from "./CatchmentInfo.svelte";
   import { base } from "$app/paths";
   import type { TCatchmentInfo } from "./types";
 
@@ -10,8 +9,6 @@
 
   let onHoverDone: (info: TCatchmentInfo) => void | undefined;
 </script>
-
-<!-- <img on:mousemove={} src="./water_drop_orange.png" alt=""> -->
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
