@@ -12,14 +12,14 @@ Pour chaque bassin versant, il y a plusieurs simulations correspondant à diffé
 La mise en musique est basée directement sur les données.
 Les anomalies saisonnières sont utilisées pour générer les notes de musique de 4 instruments, un piano, un hangdrum, une basse et une batterie:
 
-- le piano: les anomalies positives induisent des notes plus fortes et plus aigues quand elles sont grandes
+- le piano: les anomalies positives induisent des notes plus fortes et plus aigües quand elles sont grandes
 - le hangdrum: les anomalies négatives induisent des notes plus fortes et plus graves quand elles sont grandes
 - la basse: les anomalies négatives très grandes uniquement provoquent des notes
-- la batteries: celle-ci suit une structure prédéfinie mais le volume des différents élements qui la compose (grosse caisse, caisse claire, charleston, cymbale) est lié aux anomalies
+- la batteries: celle-ci suit une structure prédéfinie mais le volume des différents éléments qui la compose (grosse caisse, caisse claire, charleston, cymbale) est lié aux anomalies
   - les anomalies positives sont liées au le charleston
   - les anomalies négatives sont liées à la grosse caisse et à la caisse claire
-  - les anomalies positives et negatives sont toutes deux reliées à la cymbale ride
+  - les anomalies positives et négatives sont toutes deux reliées à la cymbale ride
 
-Pour profitez pleinnement de la sonification, munissez vous d'un bon casque audio!
+Pour profiter pleinement de la sonification, munissez-vous d'un bon casque audio !
 
-**Bon écoute!**
+**Bonne écoute!**
