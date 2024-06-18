@@ -12,19 +12,21 @@
   onMount(() => {
     // should show?
     // I could store a date and time in LocaleStorage so I do not show the message if less than a day elapsed.
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   });
+
+  function handleClose() {
+    show = false;
+    document.body.style.overflow = "auto";
+  }
 </script>
 
 {#if show}
   <div class="disabler">
-    <button
-      class="close"
-      on:click={() => {
-        show = false;
-      }}
-    >
-      &#10006;
-    </button>
+    <button class="close" on:click={handleClose}> &#10006; </button>
     <div class="welcome">
       <img src="{base}/explore2_logo_color.png" alt="" />
       <h1>
@@ -33,13 +35,8 @@
       <div class="short">
         <MarkdownRenderer markdown={short} />
       </div>
-      <About {explore2} {sonification} />
-      <button
-        class="access"
-        on:click={() => {
-          show = false;
-        }}
-      >
+      <About {explore2} narratives={null} {sonification} />
+      <button class="access" on:click={handleClose}>
         Acceder au siteweb
       </button>
     </div>
