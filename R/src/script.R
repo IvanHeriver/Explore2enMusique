@@ -6,6 +6,7 @@
 # stringr
 
 # required functions
+setwd("./R")
 source("./src/f.R")
 
 # Loading sound samples (lists of sequenceR soundSample objects)
@@ -46,11 +47,15 @@ data_files <- stringr::str_match(data_files, sprintf(
   chain_piece_regex
 ))
 
+data_files[k, ]
+
+
 
 for (k in seq_len(nrow(data_files))) {
   code <- data_files[k, 2]
   title <- catchment_info$Nom[catchment_info$Code == code]
-  subtitle <- sprintf(
+  subtitle <- getNarrativeDescription(data_files[k, 3], data_files[k, 5])
+  subsubtitle <- sprintf(
     "(%s | %s | %s | %s | %s)",
     data_files[k, 3],
     data_files[k, 4],
@@ -72,16 +77,18 @@ for (k in seq_len(nrow(data_files))) {
     folder,
     title,
     subtitle,
+    subsubtitle,
     data_path,
     pos_inst = pianoSteinway,
     neg_inst = hangDrum,
     bass_inst = bassStandup,
     drum_inst = drumkitStahl,
-    bpm = 90,
+    bpm = 110,
     style = "oriental",
     memory = 10,
     end = 20,
-    res_factor = 1
+    res_factor = 1,
+    year_filter_predicate = function(y) y > 2000
   )
 }
 

@@ -200,6 +200,7 @@ createArrow <- function(range, x = NULL, y = NULL, ...) {
 initalizePlot <- function(
     title,
     subtitle,
+    subsubtitle,
     time,
     values,
     anomalies,
@@ -274,7 +275,17 @@ initalizePlot <- function(
       x = mean(xlim),
       y = 95,
       color = color_line,
-      size = 10,
+      size = 12,
+      alpha = 0.75
+    )
+
+  g <- g +
+    ggplot2::annotate("text",
+      label = subsubtitle,
+      x = mean(xlim),
+      y = 91,
+      color = color_line,
+      size = 6,
       alpha = 0.4
     )
 
@@ -366,7 +377,7 @@ timeStepPlot <- function(plot_config, memory, current_timestep) {
         data$year[current_timestep], ""
       ),
       x = 50,
-      y = 85,
+      y = 82,
       color = plot_config$color_line,
       family = "Times New Roman",
       size = 45,
@@ -438,7 +449,7 @@ timeStepPlot <- function(plot_config, memory, current_timestep) {
 }
 
 
-processDataset <- function(data_path) {
+processDataset <- function(data_path, year_filter_predicate = function(year) TRUE) {
   raw_data <- read.table(data_path, header = TRUE, quote = "\"", sep = ";")
 
   # transforming into long table
@@ -449,6 +460,9 @@ processDataset <- function(data_path) {
     raw_data_long <- rbind(raw_data_long, chunk)
   }
   summary(raw_data_long)
+
+  # filtering years
+  raw_data_long <- raw_data_long[year_filter_predicate(raw_data_long$year), ]
 
   # computing seasons
   seasons <- list(
@@ -463,7 +477,7 @@ processDataset <- function(data_path) {
   is_previous_year <- raw_data_long$month < hdro_year_start_month
   raw_data_long$hyear[is_previous_year] <- raw_data_long$hyear[is_previous_year] - 1
 
-  raw_data_long_seasons <- cbind(raw_data_long, "season" = rep(NA_real_, nrow(raw_data)))
+  raw_data_long_seasons <- cbind(raw_data_long, "season" = rep(NA_real_, nrow(raw_data_long)))
   for (k in seq_along(seasons)) {
     in_season <- raw_data_long$month %in% seasons[[k]]
     raw_data_long_seasons[in_season, "season"] <- names(seasons)[[k]]
@@ -493,6 +507,7 @@ processDatasetIntoMusicAndVideo <- function(
     folder,
     title,
     subtitle,
+    subsubtitle,
     data_path,
     pos_inst,
     neg_inst,
@@ -502,14 +517,15 @@ processDatasetIntoMusicAndVideo <- function(
     style = "oriental",
     memory = 10,
     end = 20,
-    res_factor = 1) {
+    res_factor = 1,
+    year_filter_predicate = function(y) rep(TRUE, length(y))) {
   # ---------------------------------------------
   # loading dataset
 
   message(rep("#", 70))
   message("Reading and processing dataset...")
   flush.console()
-  seasonal_data <- processDataset(data_path)
+  seasonal_data <- processDataset(data_path, year_filter_predicate)
 
   # ---------------------------------------------
   # creating sounds
@@ -545,6 +561,7 @@ processDatasetIntoMusicAndVideo <- function(
   plot_config <- initalizePlot( # nolint
     title = title,
     subtitle = subtitle,
+    subsubtitle = subsubtitle,
     time = seasonal_data$time_index,
     values = seasonal_data$mean,
     anomalies = seasonal_data$anomalies
@@ -580,4 +597,60 @@ processDatasetIntoMusicAndVideo <- function(
   )
 
   unlink(imgdir, recursive = TRUE)
+}
+
+
+getNarrativeDescription <- function(gcm, rcm) { # nolint
+  narratives <- list(
+    list(
+      gcm = c("MOHC", "HadGEM2-ES"),
+      rcm = c("CNRM", "ALADIN63"),
+      color = "green",
+      label = "Réchauffement marqué et augmentation des précipitations"
+    ),
+    list(
+      gcm = c("CNRM", "CERFACS", "CNRM-CM5"),
+      rcm = c("CNRM", "ALADIN63"),
+      color = "yellow",
+      label = "Changements futurs relativement peu marqués"
+    ),
+    list(
+      gcm = c("ICHEC", "EC-EARTH"),
+      rcm = c("MOHC", "HadREM3-GA7"),
+      color = "orange",
+      label = "Fort réchauffement et fort assèchement en été (et en annuel)"
+    ),
+    list(
+      gcm = c("MOHC", "HadGEM2-ES"),
+      rcm = c("CLMcom", "CCLM4-8-17"),
+      color = "violet",
+      label =
+        "Fort réchauffement et forts contrastes saisonniers en précipitations"
+    )
+  )
+  if ((gcm == "") && (rcm == "")) {
+    warning(sprintf("No narrative found for empy GCM and RCM..."))
+    return("")
+  }
+  for (narrative in narratives) {
+    gcm_match <- FALSE
+    for (gcm2 in narrative$gcm) {
+      if (grepl(gcm2, gcm, fixed = TRUE)) {
+        gcm_match <- TRUE
+        break
+      }
+    }
+    rcm_match <- FALSE
+    for (rcm2 in narrative$rcm) {
+      if (grepl(rcm2, rcm, fixed = TRUE)) {
+        rcm_match <- TRUE
+        break
+      }
+    }
+    if (gcm_match && rcm_match) {
+      return(narrative$label)
+    }
+  }
+  warning(sprintf("No narrative found for empy GCM '%s' and RCM '%s'...", gcm, rcm))
+  return("")
 }
