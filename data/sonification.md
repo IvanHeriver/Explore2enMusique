@@ -1,7 +1,7 @@
 # Des données... en musique!
 
 Sur ce site web, les simulations des débits des rivières peuvent être visualiser et **écouter**!
-Des vidéos peuvent être visionner pour un échantillon de bassin versant français étudié dans le cadre d'_Explore2_.
+Des vidéos peuvent être visionner pour un échantillon de bassin versant français étudié dans le cadre d'**Explore2**.
 Pour chaque bassin versant, il y a plusieurs simulations correspondant à différents _narratifs_:
 
 - Réchauffement marqué et augmentation des précipitations
