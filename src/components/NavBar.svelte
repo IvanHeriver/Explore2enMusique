@@ -40,56 +40,6 @@
       </a>
     </li>
   </ul>
-  <!-- <ul>
-    <li>
-      <input
-        type="radio"
-        name="page_selector"
-        id="map_nav"
-        value="map"
-        checked
-        bind:group={page}
-        on:change={handlePageChange}
-      />
-      <label for="map_nav" title="carte" aria-label="afficher la carte">
-        <Icon id="map" />
-      </label>
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="page_selector"
-        id="about_nav"
-        value="about"
-        bind:group={page}
-        on:change={handlePageChange}
-      />
-      <label
-        for="about_nav"
-        title="à propos"
-        aria-label="afficher les informations sur le site web"
-      >
-        <Icon id="question" />
-      </label>
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="page_selector"
-        id="sim_list_nav"
-        value="sim_list"
-        bind:group={page}
-        on:change={handlePageChange}
-      />
-      <label
-        for="sim_list_nav"
-        title="list des données"
-        aria-label="afficher la liste des données / simulations disponibles"
-      >
-        <Icon id="list" />
-      </label>
-    </li>
-  </ul> -->
 </nav>
 
 <style>
@@ -107,27 +57,6 @@
   a.selected {
     background-color: var(--main-color);
   }
-  /* navigation button */
-  /* input[type="radio"] {
-    width: 0;
-    height: 0;
-    position: absolute;
-    opacity: 0;
-  }
-  input[type="radio"] + label {
-    background-color: transparent;
-    border: 1px solid var(--main-color);
-    border-radius: var(--border-radius);
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  input[type="radio"]:checked + label {
-    background-color: var(--main-color);
-  } */
-
   /* Navigation Styles */
   nav {
     display: flex;
