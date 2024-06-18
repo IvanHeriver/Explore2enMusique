@@ -5,4 +5,8 @@
   export let data;
 </script>
 
-<About explore2={data.explore2} sonification={data.sonification} />
+<About
+  explore2={data.explore2}
+  narratives={data.narratives}
+  sonification={data.sonification}
+/>

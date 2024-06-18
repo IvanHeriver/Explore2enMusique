@@ -1,88 +1,78 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { TDataInfo, TNarrative } from "./types";
+  import type { TDataInfo, TNarrativeConfig, TNarrativeDetail } from "./types";
 
+  export let narratives: TNarrativeDetail[];
   export let info: TDataInfo;
 
-  const narratives: TNarrative[] = [
-    {
-      gcm: ["MOHC", "HadGEM2-ES"],
-      rcm: ["CNRM", "ALADIN63"],
-      color: "green",
-      label: "Réchauffement marqué et augmentation des précipitations",
-    },
-    {
-      gcm: ["CNRM", "CERFACS", "CNRM-CM5"],
-      rcm: ["CNRM", "ALADIN63"], // none (CNRM-CERFACS-CNRM-CM5/CNRM-ALADIN63)
-      color: "yellow",
-      label: "Changements futurs relativement peu marqués",
-    },
-    {
-      gcm: ["ICHEC", "EC-EARTH"],
-      rcm: ["MOHC", "HadREM3-GA7"],
-      color: "orange",
-      label: "Fort réchauffement et fort assèchement en été (et en annuel)",
-    },
-    {
-      gcm: ["MOHC", "HadGEM2-ES"],
-      rcm: ["CLMcom", "CCLM4-8-17"],
-      color: "violet",
-      label:
-        "Fort réchauffement et forts contrastes saisonniers en précipitations",
-    },
-  ];
-
-  let narrative: TNarrative = {
-    gcm: [],
-    rcm: [],
-    color: "none",
-    label: "",
-  };
-
-  onMount(() => {
-    const n = narratives.find((n) => {
+  function identifyNarrative(info: TDataInfo): TNarrativeDetail | undefined {
+    const narrative_configs: TNarrativeConfig[] = [
+      {
+        gcm: ["MOHC", "HadGEM2-ES"],
+        rcm: ["CNRM", "ALADIN63"],
+        name: "euphorbe",
+      },
+      {
+        gcm: ["CNRM", "CERFACS", "CNRM-CM5"],
+        rcm: ["CNRM", "ALADIN63"], // none (CNRM-CERFACS-CNRM-CM5/CNRM-ALADIN63)
+        name: "narcisse",
+      },
+      {
+        gcm: ["ICHEC", "EC-EARTH"],
+        rcm: ["MOHC", "HadREM3-GA7"],
+        name: "dahlia",
+      },
+      {
+        gcm: ["MOHC", "HadGEM2-ES"],
+        rcm: ["CLMcom", "CCLM4-8-17"],
+        name: "aster",
+      },
+    ];
+    const narrative_config = narrative_configs.find((n) => {
       if (n.gcm.length == 0 && n.rcm.length == 0) return false;
       return (
         n.gcm.some((s) => info.fullname.includes(s)) &&
         n.rcm.some((s) => info.fullname.includes(s))
       );
     });
-    if (n) {
-      narrative = n;
+    if (narrative_config) {
+      return narratives.find((n) => n.name === narrative_config.name);
     }
+  }
+
+  onMount(() => {
+    narrative = identifyNarrative(info);
   });
+
+  let narrative: TNarrativeDetail | undefined;
 </script>
 
-<div
-  class="container"
-  class:green={narrative.color === "green"}
-  class:yellow={narrative.color === "yellow"}
-  class:orange={narrative.color === "orange"}
-  class:violet={narrative.color === "violet"}
->
-  <div class="label">
-    <div class="text">
-      {narrative.label}
+{#if narrative}
+  <div class="container" style={`--color: ${narrative.color}`}>
+    <div class="label">
+      <div class="text">
+        {narrative.title}
+      </div>
+    </div>
+    <div class="sim-info">
+      <div class="gcm" title={`Modèle climatique global (GCM): ${info.gcm}`}>
+        {info.gcm}
+      </div>
+      <div class="proj" title={`Projection: ${info.proj}`}>
+        {info.proj}
+      </div>
+      <div class="rcm" title={`Modèle climatique régional (RCM): ${info.rcm}`}>
+        {info.rcm}
+      </div>
+      <div class="bc" title={`Correction des biais: ${info.bias_correction}`}>
+        {info.bias_correction}
+      </div>
+      <div class="hm" title={`Modèle hydrologique: ${info.hydro_model}`}>
+        {info.hydro_model}
+      </div>
     </div>
   </div>
-  <div class="sim-info">
-    <div class="gcm" title={`Modèle climatique global (GCM): ${info.gcm}`}>
-      {info.gcm}
-    </div>
-    <div class="proj" title={`Projection: ${info.proj}`}>
-      {info.proj}
-    </div>
-    <div class="rcm" title={`Modèle climatique régional (RCM): ${info.rcm}`}>
-      {info.rcm}
-    </div>
-    <div class="bc" title={`Correction des biais: ${info.bias_correction}`}>
-      {info.bias_correction}
-    </div>
-    <div class="hm" title={`Modèle hydrologique: ${info.hydro_model}`}>
-      {info.hydro_model}
-    </div>
-  </div>
-</div>
+{/if}
 
 <style>
   .sim-info {
@@ -105,17 +95,5 @@
   }
   .label .text {
     font-size: 1.2rem;
-  }
-  .green {
-    --color: hsl(140, 29%, 37%);
-  }
-  .yellow {
-    --color: hsl(58, 87%, 62%);
-  }
-  .orange {
-    --color: hsl(37, 74%, 55%);
-  }
-  .violet {
-    --color: hsl(323, 64%, 26%);
   }
 </style>

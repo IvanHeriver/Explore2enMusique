@@ -1,8 +1,7 @@
-export type TNarrative = {
+export type TNarrativeConfig = {
   gcm: string[];
   rcm: string[];
-  color: "none" | "green" | "yellow" | "orange" | "violet";
-  label: string;
+  name: string;
 };
 
 export type TDataInfo = {
@@ -25,4 +24,13 @@ export type TCatchmentInfo = {
 export type TCatchmentData = {
   info: TCatchmentInfo;
   data: TDataInfo[];
+};
+
+export type TNarrativeDetail = {
+  name: string;
+  color_name: string;
+  title: string;
+  markdown: string;
+  color: string;
+  icon_path: string;
 };

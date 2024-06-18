@@ -1,14 +1,15 @@
 <script lang="ts">
   import SimulationInfo from "./SimulationInfo.svelte";
-  import type { TDataInfo } from "./types";
+  import type { TDataInfo, TNarrativeDetail } from "./types";
 
   export let data: TDataInfo;
+  export let narratives: TNarrativeDetail[];
   export let onPlay: (video_element: HTMLVideoElement) => void;
   let video_element: HTMLVideoElement;
 </script>
 
 <div class="container">
-  <div class="info"><SimulationInfo info={data} /></div>
+  <div class="info"><SimulationInfo info={data} {narratives} /></div>
   <div class="video">
     <!-- svelte-ignore a11y-media-has-caption -->
     <video

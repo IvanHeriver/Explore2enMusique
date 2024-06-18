@@ -1,5 +1,6 @@
 import { getAvailableStations } from "../components/process_station_data";
 import { marked } from "marked";
+import type { TNarrativeDetail } from "../components/types";
 const fs = await import("fs");
 
 function processMarkdownFile(filepath: string) {
@@ -7,15 +8,25 @@ function processMarkdownFile(filepath: string) {
   const md = marked.parse(raw) as string;
   return md;
 }
+
+function loadNarratives(): TNarrativeDetail[] {
+  const json = JSON.parse(
+    fs.readFileSync("./data/narratives.json", "utf8")
+  ) as TNarrativeDetail[];
+  return json.map((n) => {
+    return { ...n, markdown: processMarkdownFile(`./data/${n.markdown}`) };
+  });
+}
+
 export async function load() {
-  const data = getAvailableStations();
-  const about_raw_text = fs.readFileSync(`./data/short.md`, "utf8");
-  const about_text = marked.parse(about_raw_text) as string;
+  const narratives = loadNarratives();
+  console.log(narratives);
   return {
     short: processMarkdownFile(`./data/short.md`),
     explore2: processMarkdownFile(`./data/explore2.md`),
     sonification: processMarkdownFile(`./data/sonification.md`),
-    data,
+    narratives: narratives,
+    data: getAvailableStations(),
   };
 }
 

@@ -19,6 +19,7 @@
 {#if catchment}
   <CatchmentFullMapPopup
     {catchment}
+    narratives={data.narratives}
     close_cb={() => {
       history.back();
     }}

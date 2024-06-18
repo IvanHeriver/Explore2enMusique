@@ -1,8 +1,9 @@
 <script lang="ts">
   import CatchmentInfo from "./CatchmentInfo.svelte";
   import CatchmentVideoCard from "./CatchmentVideoCard.svelte";
-  import type { TCatchmentData } from "./types";
+  import type { TCatchmentData, TNarrativeDetail } from "./types";
 
+  export let narratives: TNarrativeDetail[];
   export let catchment: TCatchmentData;
   export let close_cb: () => void;
 
@@ -29,7 +30,7 @@
   </div>
   <div class="videos">
     {#each catchment.data as d (d.fullname)}
-      <CatchmentVideoCard data={d} onPlay={handlePlay} />
+      <CatchmentVideoCard data={d} {narratives} onPlay={handlePlay} />
     {/each}
   </div>
 </div>
