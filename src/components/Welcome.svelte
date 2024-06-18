@@ -35,7 +35,7 @@
       <div class="short">
         <MarkdownRenderer markdown={short} />
       </div>
-      <About {explore2} narratives={null} {sonification} />
+      <About {explore2} {sonification} />
       <button class="access" on:click={handleClose}>
         Acceder au siteweb
       </button>

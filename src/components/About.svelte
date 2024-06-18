@@ -1,24 +1,30 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import MarkdownRenderer from "./MarkdownRenderer.svelte";
-  import NarrativeInfo from "./NarrativeInfo.svelte";
-  import type { TNarrativeDetail } from "./types";
 
   export let explore2: string | null;
   export let sonification: string | null;
-  export let narratives: TNarrativeDetail[] | null;
+  export let links: boolean = false;
 </script>
 
 {#if explore2}
   <MarkdownRenderer markdown={explore2} />
 {/if}
 
-{#if sonification}
-  <MarkdownRenderer markdown={sonification} />
+{#if links}
+  <p>
+    Pour en savoir plus: <a href="{base}/narratifs">
+      quatre visions contrastées du futur issue d'<b>Explore2</b>
+    </a>
+  </p>
+  <p>
+    Pour télécharger les données issues d'<b>Explore2</b>:
+    <a href="https://drias-eau.fr/" target="_blank">
+      DRIAS les futurs de l'eau (https://drias-eau.fr/)
+    </a>
+  </p>
 {/if}
 
-{#if narratives}
-  <h1>Plusieurs narratifs</h1>
-  {#each narratives as narrative}
-    <NarrativeInfo {narrative} />
-  {/each}
+{#if sonification}
+  <MarkdownRenderer markdown={sonification} />
 {/if}
