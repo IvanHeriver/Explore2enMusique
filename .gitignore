@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 /data/gis
 /R/data
 /R/tmp
+/R/videos_musics
