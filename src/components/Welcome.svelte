@@ -30,7 +30,7 @@
     <div class="welcome">
       <img src="{base}/explore2_logo_color.png" alt="" />
       <h1>
-        Bienvenue dans <b>Explore 2</b> <i>en musique</i>
+        Bienvenue dans <b>Explore2</b> <i>en musique</i>
       </h1>
       <div class="short">
         <MarkdownRenderer markdown={short} />
