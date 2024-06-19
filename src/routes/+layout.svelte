@@ -6,6 +6,7 @@
   import { page } from "$app/stores";
   import Welcome from "../components/Welcome.svelte";
   import { base } from "$app/paths";
+  import BackButton from "../components/BackButton.svelte";
 
   export let data;
   let catchments: TCatchmentData[] = [...data.data.values()];
@@ -37,6 +38,7 @@
   </div>
   <main>
     <div class="container">
+      <BackButton />
       <slot />
     </div>
   </main>

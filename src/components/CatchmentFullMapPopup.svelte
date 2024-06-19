@@ -1,11 +1,11 @@
 <script lang="ts">
+  import BackButton from "./BackButton.svelte";
   import CatchmentInfo from "./CatchmentInfo.svelte";
   import CatchmentVideoCard from "./CatchmentVideoCard.svelte";
   import type { TCatchmentData, TNarrativeDetail } from "./types";
 
   export let narratives: TNarrativeDetail[];
   export let catchment: TCatchmentData;
-  export let close_cb: () => void;
 
   let current_video_element: HTMLVideoElement | null;
   function handlePlay(video_element: HTMLVideoElement) {
@@ -17,14 +17,6 @@
 </script>
 
 <div class="container">
-  <button
-    class="close"
-    on:click={() => {
-      close_cb();
-    }}
-  >
-    &#10006;
-  </button>
   <div class="title">
     <CatchmentInfo info={catchment.info} />
   </div>
@@ -37,12 +29,6 @@
 
 <style>
   .container {
-    /* padding: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: var(--border-radius);
-    position: absolute;
-    inset: 0; */
-
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -70,20 +56,8 @@
     .videos {
       grid-template-columns: repeat(
         auto-fit,
-        minmax(500px, 1fr)
+        minmax(300px, 1fr)
       ); /* Larger minimum width for larger screens */
     }
-  }
-
-  .close {
-    position: fixed;
-    /* inset: 0.5rem 0.5rem auto auto; */
-    inset: calc(var(--header-height) + 1rem) auto auto 1rem;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: large;
   }
 </style>
