@@ -36,7 +36,7 @@ button:hover {
 
 a {
   text-decoration-style: dotted;
-  color: var(--xdark-color);
+  color: var(--dark-color);
 }
 a:hover {
   text-decoration-style: solid;
