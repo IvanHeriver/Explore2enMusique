@@ -4,7 +4,6 @@
   import Icon from "./Icon.svelte";
 
   import { page } from "$app/stores";
-  // let page: string = "map";
 </script>
 
 <nav>
@@ -31,12 +30,12 @@
     </li>
     <li>
       <a
-        href="{base}/stations"
-        title="list des données"
-        aria-label="afficher la liste des données / simulations disponibles"
-        class:selected={$page.url.pathname === `${base}/stations`}
+        href="{base}/narratifs"
+        title="Quatre visions contrastées du futur issue d'Explore2"
+        aria-label="Quatre visions contrastées du futur issue d'Explore2"
+        class:selected={$page.url.pathname === `${base}/narratifs`}
       >
-        <Icon id="list" />
+        <Icon id="narratives" />
       </a>
     </li>
   </ul>
@@ -46,13 +45,14 @@
   /* navigation button */
   a {
     background-color: transparent;
-    border: 1px solid var(--main-color);
+    /* border: 1px solid var(--main-color); */
     border-radius: var(--border-radius);
     padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: black;
   }
   a.selected {
     background-color: var(--main-color);
