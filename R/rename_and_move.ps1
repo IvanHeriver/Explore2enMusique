@@ -27,3 +27,6 @@ foreach ($subDir in $subDirs) {
     }
 
 }
+
+# to copy to target dir using rclone (once rclone configured for the remote); remove --dry-run for actually transferring files
+# rclone sync videos_musics  ovhpublicstorage:explore2enmusique --progress --dry-run
