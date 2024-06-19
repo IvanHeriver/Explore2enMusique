@@ -3,7 +3,7 @@
   export let data;
 </script>
 
-<h1>Quatre visions contrastées du futur issue d'<b>Explore2</b></h1>
+<h1>Quatre visions contrastées du futur issues d'<b>Explore2</b></h1>
 {#each data.narratives as narrative}
   <NarrativeInfo {narrative} />
 {/each}
