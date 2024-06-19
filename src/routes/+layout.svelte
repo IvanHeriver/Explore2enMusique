@@ -43,7 +43,7 @@
     </div>
   </main>
   <footer>
-    <div class="copyright">&copy; 2024 Explore 2 Des futurs de l'eau</div>
+    <div class="copyright">&copy; 2024 Explore2</div>
     <!-- <div class="source">
       code source: <a
         href="https://github.com/IvanHeriver/explore2enmusique/"
