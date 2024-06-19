@@ -3,19 +3,21 @@
   import About from "./About.svelte";
   import MarkdownRenderer from "./MarkdownRenderer.svelte";
   import { base } from "$app/paths";
+  import { page } from "$app/stores";
 
   export let short: string;
   export let explore2: string;
   export let sonification: string;
 
-  let show: boolean = true;
+  let show: boolean = false;
   onMount(() => {
     // should show?
-    // I could store a date and time in LocaleStorage so I do not show the message if less than a day elapsed.
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    // I could store a date and time in LocaleStorage
+    // so I do not show the message if less than a day elapsed.
+    show = $page.url.pathname === `${base}/`;
+    if (show) {
+      document.body.style.overflow = "hidden";
+    }
   });
 
   function handleClose() {
