@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let id: "map" | "question" | "list";
+  export let id: "map" | "question" | "list" | "narratives";
 </script>
 
 {#if id == "map"}
@@ -55,6 +55,21 @@
     <line x1="3" y1="6" x2="3.01" y2="6"></line>
     <line x1="3" y1="12" x2="3.01" y2="12"></line>
     <line x1="3" y1="18" x2="3.01" y2="18"></line>
+  </svg>
+{:else if id == "narratives"}
+  <svg
+    width="24"
+    height="24"
+    version="1.1"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g>
+      <circle cx="6" cy="6" r="5.2485" fill="#e5e840" />
+      <circle cx="6.0106" cy="18.01" r="5.2581" fill="#e2a13b" />
+      <circle cx="18" cy="6" r="5.2485" fill="#447c57" />
+      <circle cx="18.011" cy="18.01" r="5.2581" fill="#70194e" />
+    </g>
   </svg>
 {:else}
   -
