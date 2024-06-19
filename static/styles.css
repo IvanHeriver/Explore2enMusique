@@ -33,3 +33,12 @@ button {
 button:hover {
   background-color: var(--light-color);
 }
+
+a {
+  text-decoration-style: dotted;
+  color: var(--xdark-color);
+}
+a:hover {
+  text-decoration-style: solid;
+  color: var(--main-color);
+}
