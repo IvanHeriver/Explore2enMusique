@@ -14,7 +14,7 @@
 {#if links}
   <p>
     Pour en savoir plus: <a href="{base}/narratifs">
-      quatre visions contrastées du futur issue d'<b>Explore2</b>
+      quatre visions contrastées du futur issues d'<b>Explore2</b>
     </a>
   </p>
   <p>

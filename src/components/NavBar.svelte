@@ -31,8 +31,8 @@
     <li>
       <a
         href="{base}/narratifs"
-        title="Quatre visions contrastées du futur issue d'Explore2"
-        aria-label="Quatre visions contrastées du futur issue d'Explore2"
+        title="Quatre visions contrastées du futur issues d'Explore2"
+        aria-label="Quatre visions contrastées du futur issues d'Explore2"
         class:selected={$page.url.pathname === `${base}/narratifs`}
       >
         <Icon id="narratives" />
