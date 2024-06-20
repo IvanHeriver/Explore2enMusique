@@ -13,12 +13,12 @@
 
 {#if links}
   <p>
-    Pour en savoir plus: <a href="{base}/narratifs">
-      quatre visions contrastées du futur issues d'<b>Explore2</b>
+    Pour en savoir plus: <a href="{base}/narratifs"
+      >les quatre visions contrastées du futur issues d'<b>Explore2</b>
     </a>
   </p>
   <p>
-    Pour télécharger les données issues d'<b>Explore2</b>:
+    Pour télécharger les données hydrologiques issues d'<b>Explore2</b>:
     <a
       href="https://drias-eau.fr/"
       target="_blank"
@@ -28,9 +28,9 @@
     </a>
   </p>
   <p>
-    Vous pouvez également consultez la
+    Vous pouvez également consulter la
     <a href="{base}/stations">
-      listes des stations présentées sur ce site web
+      liste des stations présentées sur ce site web
     </a>
   </p>
 {/if}
