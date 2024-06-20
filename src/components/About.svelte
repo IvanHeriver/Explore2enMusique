@@ -1,5 +1,6 @@
 <script lang="ts">
   import { base } from "$app/paths";
+  import Credits from "./Credits.svelte";
   import MarkdownRenderer from "./MarkdownRenderer.svelte";
 
   export let explore2: string | null;
@@ -37,4 +38,8 @@
 
 {#if sonification}
   <MarkdownRenderer markdown={sonification} />
+{/if}
+
+{#if links}
+  <Credits />
 {/if}
