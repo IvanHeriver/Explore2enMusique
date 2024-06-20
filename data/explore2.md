@@ -1,4 +1,4 @@
-## Explore2 _Des futures de l'eau_
+## Explore2 _Des futurs de l'eau_
 
 Le projet **Explore2**, porté par [INRAE](https://www.inrae.fr/) et l'[Office International de l'eau (OiEau)](https://www.oieau.org), s'inscrit dans la suite de l'étude Explore 2070 (2010-2012) grâce à laquelle les acteurs de la recherche, autour du Ministère de l'écologie, avaient établi des premiers scénarios prospectifs de disponibilités des ressources en eau à l'échelle de la France à horizon 2070.
 
