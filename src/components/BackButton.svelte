@@ -4,15 +4,6 @@
   }
 </script>
 
-<!-- <a
-  class="back"
-  href={url}
-  title="retour à la page précédente"
-  aria-label="retour à la page précédente"
->
-  &#10140;
-</a> -->
-
 <button
   class="back"
   title="retour à la page précédente"
@@ -26,8 +17,8 @@
   .back {
     position: fixed;
     inset: calc(var(--header-height) + 0.5rem) auto auto 1rem;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,11 +27,13 @@
     text-decoration: none;
     color: black;
 
-    padding: 0.25rem;
+    padding: 0.125rem;
     border: none;
     background-color: var(--main-color);
     cursor: pointer;
     border-radius: var(--border-radius);
+
+    font-size: small;
   }
 
   .back:hover {

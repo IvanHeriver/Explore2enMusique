@@ -47,9 +47,4 @@ export function getDataFromURLhash(key: string): string | undefined {
 export function updateURLhash(object: { [key: string]: string | null }) {
   const hash = updateHash(window.location.hash, object);
   pushState(hash, {});
-  // if (push_state_debouncer != null) {
-  //   window.clearTimeout(push_state_debouncer);
-  // }
-  // push_state_debouncer = window.setTimeout(() => {
-  // }, 0);
 }
