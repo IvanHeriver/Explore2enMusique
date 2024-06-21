@@ -17,12 +17,13 @@
 
 <style>
   h2 {
-    display: flex;
+    --size: 1.5rem;
+    display: grid;
+    grid-template-columns: var(--size) auto;
     align-items: center;
     gap: 1rem;
   }
   .circle {
-    --size: 1.5rem;
     width: var(--size);
     height: var(--size);
     border-radius: 50%;
