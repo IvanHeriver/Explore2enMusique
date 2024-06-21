@@ -2,12 +2,19 @@
   <h2>Crédits</h2>
 
   <p class="video">
-    Toutes les vidéos présentées sur ce site web ont été créées par Ivan Horner
-    (<a href="https://ihdev.fr" target="_blank">ihdev.fr</a>). L'idée originale
-    de cette forme de mise en musique des données, ainsi qu'une grande partie
-    des codes R permettant la mise en musique et la création des vidéos est
-    issue ou inspirée du travail de Benjamin Renard. Un exemple de vidéo
-    similaire est d'ailleurs présenté sur son
+    Toutes les vidéos présentées sur ce site web sont sous licence
+    <a
+      href="https://creativecommons.org/licenses/by/4.0/deed.fr"
+      target="_blank"
+    >
+      Creative Commons Attribution 4.0 International (CC BY 4.0)
+    </a>. Elles ont été créées par Ivan Horner (<a
+      href="https://ihdev.fr"
+      target="_blank">ihdev.fr</a
+    >). L'idée originale de cette forme de mise en musique des données, ainsi
+    qu'une grande partie des codes R permettant la mise en musique et la
+    création des vidéos est issue ou inspirée du travail de Benjamin Renard. Un
+    exemple de vidéo similaire est d'ailleurs présenté sur son
     <a
       href="https://globxblog.github.io/blog/fetedelascience2022/"
       target="_blank">blog</a
