@@ -25,7 +25,7 @@
 
   let zoom = 5;
   let center = proj.fromLonLat([5, 45]);
-  let should_update_history_state = true;
+  let should_update_history_state = false;
 
   onMount(() => {
     // ****************************************************
@@ -42,27 +42,6 @@
 
     // ****************************************************
     // handle history navigation (zoom and location)
-
-    let hash_debouncer: number | null = null;
-    map.on("moveend", () => {
-      if (!should_update_history_state) {
-        should_update_history_state = true;
-        return;
-      }
-      const zoom = view.getZoom();
-      const center = view.getCenter();
-      if (!center || !zoom) {
-        return;
-      }
-      if (hash_debouncer) {
-        window.clearTimeout(hash_debouncer);
-      }
-      hash_debouncer = window.setTimeout(() => {
-        updateURLhash({
-          map: `${zoom.toFixed(2)}/${center[0].toFixed(2)}/${center[1].toFixed(2)}`,
-        });
-      }, 200);
-    });
 
     processMapNavInfo();
 
@@ -171,6 +150,28 @@
       popup.setPosition(coordinates);
       map.addOverlay(popup);
     }
+
+    // handle modifying url on panning and zooming
+    let hash_debouncer: number | null = null;
+    map.on("moveend", () => {
+      if (!should_update_history_state) {
+        should_update_history_state = true;
+        return;
+      }
+      const zoom = view.getZoom();
+      const center = view.getCenter();
+      if (!center || !zoom) {
+        return;
+      }
+      if (hash_debouncer) {
+        window.clearTimeout(hash_debouncer);
+      }
+      hash_debouncer = window.setTimeout(() => {
+        updateURLhash({
+          map: `${zoom.toFixed(2)}/${center[0].toFixed(2)}/${center[1].toFixed(2)}`,
+        });
+      }, 200);
+    });
     window.addEventListener("popstate", function (event) {
       if (event.state === null) {
         return;
