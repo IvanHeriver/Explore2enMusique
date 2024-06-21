@@ -30,7 +30,7 @@
 
   <p class="open">
     Les codes sources du site web et ceux permettant la création des vidéos sont
-    open source. L'ensemble est disponible sur le dépot github: <a
+    open source. L'ensemble est disponible sur le dépôt github: <a
       href="https://github.com/explore2enmusique/explore2enmusique.github.io
 </p>"
       target="_blank"
