@@ -14,3 +14,5 @@ vite.config.ts.timestamp-*
 /R/data
 /R/tmp
 /R/videos_musics
+/R/videos_musics_processed
+/R/overlay.png
