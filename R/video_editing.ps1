@@ -4,10 +4,10 @@ $overlay_image = "overlay.png"
 $input_folder = "videos_musics"
 $output_folder = "videos_musics_processed"
 
-# Set metadata to add
-$author = "Ivan Horner"
-$copyright = "© 2024 Ivan Horner"
-$licence = "CC BY 4.0: https://creativecommons.org/licenses/by/4.0/"
+# Set metadata to add (unused for now)
+# $author = "Ivan Horner"
+# $copyright = "© 2024 Ivan Horner"
+# $licence = "CC BY 4.0: https://creativecommons.org/licenses/by/4.0/"
 
 # Create the output folder if it doesn't exist
 if (-Not (Test-Path $output_folder)) {
@@ -37,12 +37,14 @@ function Format-Video {
     $command = "ffmpeg"
     $cmd_args = @(
         "-i", "`"$video_file`"",
-        "-i", "`"$overlay_image`"",
-        "-filter_complex", "overlay=0:0",
-        "-codec:a", "copy",
-        "-metadata", "author=`"$author`"",
-        "-metadata", "copyright=`"$copyright`"",
-        "-metadata", "license=`"$licence`"",
+        # "-i", "`"$overlay_image`"",
+        # "-filter_complex", "overlay=0:0",
+        # "-metadata", "title=`"Test title`"",
+        "-metadata", "author=`"Ivan Horner`"",
+        # "-metadata", "copyright=`"© 2024 Ivan Horner`"",
+        # "-metadata", "license=`"CC BY 4.0: https://creativecommons.org/licenses/by/4.0/`"",
+        # "-codec:a", "copy",
+        "-c", "copy",
         "`"$output_file`""
     )
 
